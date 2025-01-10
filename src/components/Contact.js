@@ -19,7 +19,7 @@ function Contact() {
     {
       icon: FaWhatsapp,
       title: 'WhatsApp',
-      value: '+254 712 345 678',
+      value: '+254 705 483 375',
       link: `https://wa.me/254705483375`,
       color: 'text-green-500'
     },
