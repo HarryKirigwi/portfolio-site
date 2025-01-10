@@ -13,7 +13,7 @@ function Projects() {
       technologies: ['React', 'Node.js', 'MongoDB'],
       category: 'Web App',
       githubLink: '#',
-      liveLink: 'brilliantessays.vercel.app'
+      liveLink: 'https://brilliantessays.vercel.app'
     },
     {
       id: 2,

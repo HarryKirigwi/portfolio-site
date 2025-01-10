@@ -20,21 +20,21 @@ function Contact() {
       icon: FaWhatsapp,
       title: 'WhatsApp',
       value: '+254 712 345 678',
-      link: `https://wa.me/254712345678`,
+      link: `https://wa.me/254705483375`,
       color: 'text-green-500'
     },
     {
       icon: FaPhone,
       title: 'Call Me',
-      value: '+254 712 345 678',
-      link: 'tel:+254712345678',
+      value: '+254 05 483 375',
+      link: 'tel:+254705483375',
       color: 'text-blue-500'
     },
     {
       icon: FaEnvelope,
       title: 'Email',
-      value: 'harrison.kirigwi@example.com',
-      link: 'mailto:harrison.kirigwi@example.com',
+      value: 'harrykirigwi@gmail.com',
+      link: 'mailto:harrykirigwi@gmail.com',
       color: 'text-red-500'
     }
   ];
