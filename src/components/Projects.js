@@ -17,7 +17,7 @@ function Projects() {
     },
     {
       id: 2,
-      title: 'Task Management App',
+      title: 'University Website',
       description: 'Productivity tracking application with real-time updates',
       technologies: ['React', 'Firebase', 'Tailwind CSS'],
       category: 'Web App',
