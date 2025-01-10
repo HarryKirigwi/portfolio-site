@@ -12,7 +12,7 @@ function Projects() {
       description: 'Full-stack e-commerce solution with React and Node.js',
       technologies: ['React', 'Node.js', 'MongoDB'],
       category: 'Web App',
-      githubLink: '#',
+      githubLink: 'https://github.com/HarryKirigwi/Brilliant-Essays/',
       liveLink: 'https://brilliantessays.vercel.app'
     },
     {
