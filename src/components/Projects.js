@@ -101,7 +101,7 @@ function Projects() {
                 <a 
                   href={project.githubLink} 
                   target="_blank" 
-                  rel="noopener noreferrer"
+                  rel="MyWindow"
                   className="text-gray-300 hover:text-secondary"
                 >
                   <FaGithub className="text-2xl" />
