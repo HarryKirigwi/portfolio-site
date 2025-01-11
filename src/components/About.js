@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { FaCode, FaLaptopCode, FaServer } from 'react-icons/fa';
-import backgroundImage from '../portfolio-background.jpeg';
+import backgroundImage from '../images/portfolio-background.jpeg';
 
 
 function About() {

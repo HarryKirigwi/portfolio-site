@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import emailjs from '@emailjs/browser'; // Import EmailJS
 import { 
   FaPaperPlane, 
   FaWhatsapp, 
   FaPhone, 
   FaEnvelope, 
-  FaMapMarkerAlt 
+  FaMapMarkerAlt,
+  FaCheckCircle,
+  FaTimesCircle
 } from 'react-icons/fa';
 
 function Contact() {
@@ -14,6 +17,20 @@ function Contact() {
     email: '',
     message: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isError, setIsError] = useState(false);
+
+  useEffect(() => {
+    let timeoutId;
+    if (isSuccess || isError) {
+      timeoutId = setTimeout(() => {
+        setIsSuccess(false);
+        setIsError(false);
+      }, 3000); // 3 seconds
+    }
+    return () => clearTimeout(timeoutId); // Cleanup timeout on component unmount
+  }, [isSuccess, isError]);
 
   const contactMethods = [
     {
@@ -49,25 +66,28 @@ function Contact() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    setIsSuccess(false);
+    setIsError(false);
+
     try {
-      // Implement form submission logic
-      console.log('Form submitted:', formData);
-      
-      // Optional: Add form submission to backend or email service
-      // const response = await fetch('/api/contact', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(formData)
-      // });
+      // Send email using EmailJS
+      const serviceID = 'default_service'; // Replace with your service ID if different
+      const templateID = 'template_6mfle9b'; // Your template ID
+      const publicKey = 'j_LR_Sct-sa-I7GTY'; // Your public key
+
+      await emailjs.send(serviceID, templateID, formData, publicKey);
 
       // Reset form
       setFormData({ name: '', email: '', message: '' });
-      
-      // Optional: Show success message
-      alert('Message sent successfully!');
+
+      // Show success message
+      setIsSuccess(true);
     } catch (error) {
       console.error('Submission error:', error);
-      alert('Failed to send message. Please try again.');
+      setIsError(true);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -177,11 +197,59 @@ function Contact() {
 
               <button
                 type="submit"
-                className="w-full bg-secondary text-white py-3 rounded-lg hover:bg-opacity-90 transition-colors flex items-center justify-center space-x-2 group"
+                disabled={isSubmitting}
+                className="w-full bg-secondary text-white py-3 rounded-lg hover:bg-opacity-90 transition-colors flex items-center justify-center space-x-2 group relative overflow-hidden"
               >
-                <FaPaperPlane className="group-hover:animate-bounce" />
-                <span>Send Message</span>
+                <motion.span
+                  initial={{ opacity: 1 }}
+                  animate={{ opacity: isSubmitting ? 0 : 1 }}
+                  transition={{ duration: 0.2 }}
+                  className="flex items-center space-x-2"
+                >
+                  <FaPaperPlane className="group-hover:animate-bounce" />
+                  <span>Send Message</span>
+                </motion.span>
+                {isSubmitting && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute inset-0 flex items-center justify-center"
+                  >
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+                      className="w-6 h-6 border-2 border-white border-t-transparent rounded-full"
+                    />
+                  </motion.div>
+                )}
               </button>
+
+              {/* Success and Error Messages */}
+              <AnimatePresence>
+                {isSuccess && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    className="flex items-center space-x-2 text-green-500"
+                  >
+                    <FaCheckCircle />
+                    <span>Message sent successfully!</span>
+                  </motion.div>
+                )}
+                {isError && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    className="flex items-center space-x-2 text-red-500"
+                  >
+                    <FaTimesCircle />
+                    <span>Failed to send message. Please try again.</span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </form>
           </motion.div>
         </div>
