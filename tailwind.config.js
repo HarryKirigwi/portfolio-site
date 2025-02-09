@@ -10,6 +10,15 @@ module.exports = {
         'secondary': '#3498DB',
         'accent': '#27AE60'
       },
+      container: {
+        center: true,
+        padding:{
+          DEFAULT: "1rem",
+          sm: "1rem",
+          md: "2rem",
+          lg: "8rem"
+        } 
+      },
       animation: {
         'pulse-slow': 'pulse 3s infinite',
         'pulse-fast': 'pulse 1s infinite',
