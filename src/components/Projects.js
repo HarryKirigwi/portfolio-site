@@ -14,6 +14,7 @@ import {
 import { SiTailwindcss, SiMongodb, SiFirebase } from 'react-icons/si';
 import brilliantImage from "../images/brilliant-essay.png"
 import portfolioImage from "../images/portfolio-website.png"
+import universityImage from "../images/synapsse-display.png"
 
 function Projects() {
   const [activeFilter, setActiveFilter] = useState('All');
@@ -38,7 +39,7 @@ function Projects() {
       category: 'Web App',
       githubLink: '#',
       liveLink: '#',
-      image: 'https://via.placeholder.com/400x250' // Replace with actual project image
+      image: universityImage
     },
     {
       id: 3,
