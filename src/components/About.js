@@ -68,7 +68,7 @@ function About() {
           {/* Action Buttons */}
           <div className="flex justify-center md:justify-start space-x-4">
             <a 
-              href="https://drive.google.com/file/d/12NXIoJPejJvYTNB5FIkYl09TTa-w3AQL/view?usp=sharing" 
+              href="https://drive.google.com/file/d/1Y9hdb4pkBE2rbiKSzXoQP9ls13rUVpHc/view?usp=drive_link" 
               download 
               className="bg-secondary text-white px-6 py-3 rounded-lg hover:bg-opacity-90 transition-colors"
             >
