@@ -72,7 +72,7 @@ function About() {
               download 
               className="bg-secondary text-white px-6 py-3 rounded-lg hover:bg-opacity-90 transition-colors"
             >
-              Download Resume
+              View Resume
             </a>
             <a 
               href="#contact" 
