@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
-import { FaGithub, FaLinkedin, FaTwitter, FaLaptopCode } from 'react-icons/fa';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FaGithub, FaLinkedin, FaTwitter, FaLaptopCode, FaBars, FaTimes } from 'react-icons/fa';
 
 function Header() {
   const [typedText, setTypedText] = useState('');
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const fullText = "Full Stack Developer";
   const typingSpeed = 80; // ms per character
   const headerRef = useRef(null);
@@ -31,6 +32,10 @@ function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
   // Nav items
   const navItems = [
     { title: 'Home', href: '#home' },
@@ -56,7 +61,7 @@ function Header() {
 
       {/* Main content */}
       <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row items-center justify-between">
+        <div className="flex items-center justify-between">
           {/* Logo and Name with Glow effect */}
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
@@ -90,8 +95,8 @@ function Header() {
             </div>
           </motion.div>
 
-          {/* Navigation and Social Links */}
-          <div className="flex flex-col md:flex-row items-center">
+          {/* Desktop Navigation, Social Links & Contact Button */}
+          <div className="hidden md:flex items-center">
             {/* Desktop Navigation */}
             <motion.nav 
               initial={{ opacity: 0, y: -10 }}
@@ -183,29 +188,77 @@ function Header() {
               <span className="relative">Contact Me</span>
             </motion.a>
           </div>
-        </div>
 
-        {/* Mobile Navigation - only appears on small screens */}
-        <motion.nav 
+          {/* Mobile Menu Button */}
+          <div className="md:hidden">
+            <button 
+              onClick={toggleMobileMenu}
+              className="text-gray-300 hover:text-white focus:outline-none p-2 rounded-md bg-gray-800/50 hover:bg-gray-700/70 transition-colors"
+              aria-label="Toggle menu"
+            >
+              {isMobileMenuOpen ? <FaTimes className="text-xl" /> : <FaBars className="text-xl" />}
+            </button>
+          </div>
+        </div>
+      </div>
+
+    {/* Mobile Navigation Menu - Animated */}
+    <AnimatePresence>
+      {isMobileMenuOpen && (
+        <motion.div 
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
-          transition={{ duration: 0.5 }}
-          className="md:hidden mt-4 pt-4 border-t border-gray-800"
+          exit={{ opacity: 0, height: 0 }}
+          transition={{ duration: 0.3 }}
+          className="md:hidden mt-4 pt-4 border-t border-gray-700/50 overflow-hidden"
         >
-          <ul className="flex justify-center space-x-6">
+          <nav className="flex flex-col items-center space-y-4 mb-4">
             {navItems.map((item) => (
-              <li key={item.title}>
-                <a 
-                  href={item.href} 
-                  className="text-gray-300 hover:text-white transition-colors duration-300"
-                >
-                  {item.title}
-                </a>
-              </li>
+              <a 
+                key={item.title}
+                href={item.href} 
+                className="text-gray-300 hover:text-white transition-colors duration-300 text-lg"
+                onClick={() => setIsMobileMenuOpen(false)} // Close menu on click
+              >
+                {item.title}
+              </a>
             ))}
-          </ul>
-        </motion.nav>
-      </div>
+          </nav>
+          {/* Social Links in Mobile Menu */}
+          <div className="flex justify-center space-x-4 mb-4">
+            {[
+              { Icon: FaGithub, href: "https://github.com/harrisonkirigwi", tooltip: "GitHub" },
+              { Icon: FaLinkedin, href: "https://linkedin.com/in/harrisonkirigwi", tooltip: "LinkedIn" },
+              { Icon: FaTwitter, href: "https://twitter.com/harrisonkirigwi", tooltip: "Twitter" }
+            ].map(({ Icon, href, tooltip }) => (
+              <a
+                key={href}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-300 hover:text-indigo-400 transition-colors duration-300 text-xl"
+                aria-label={tooltip}
+              >
+                <Icon />
+              </a>
+            ))}
+          </div>
+          {/* Contact Button in Mobile Menu */}
+          <div className="flex justify-center">
+            <motion.a 
+              href="#contact"
+              whileHover={{ scale: 1.05 }}
+              className="relative px-5 py-2 font-medium text-white group overflow-hidden rounded-lg w-full text-center max-w-xs"
+              onClick={() => setIsMobileMenuOpen(false)} // Close menu on click
+            >
+              <span className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-indigo-600 to-purple-600 opacity-80 group-hover:opacity-100 transition-opacity duration-300"></span>
+              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-indigo-400 to-purple-400"></span>
+              <span className="relative">Contact Me</span>
+            </motion.a>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
     </motion.header>
   );
 }

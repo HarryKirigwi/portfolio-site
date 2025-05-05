@@ -18,8 +18,8 @@ import universityImage from "../images/synapsse-display.png";
 import { useInView } from 'react-intersection-observer';
 function Projects() {
   const [activeFilter, setActiveFilter] = useState('All');
-  const [sectionRef, isSectionInView] = useInView({ threshold: 0.1 });
-  const [testimonialsRef, isTestimonialsInView] = useInView({ threshold: 0.1 });
+  const [sectionRef, isSectionInView] = useInView({ threshold: 0.1, triggerOnce: true });
+  const [testimonialsRef, isTestimonialsInView] = useInView({ threshold: 0.1, triggerOnce: true });
 
   const projects = [
     {
@@ -89,15 +89,15 @@ function Projects() {
   };
 
   const ProjectCard = ({ project, index }) => {
-    const [ref, isInView] = useInView({ threshold: 0.2 });
+    const [ref, isInView] = useInView({ threshold: 0.2, triggerOnce: true });
 
     return (
       <motion.div
         ref={ref}
-        initial={{ opacity: 0, rotateY: 90, scale: 0.8 }}
-        animate={isInView ? { opacity: 1, rotateY: 0, scale: 1 } : { opacity: 0, rotateY: 90, scale: 0.8 }}
-        transition={{ duration: 0.6, delay: index * 0.2, type: 'spring', stiffness: 100 }}
-        whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(99, 102, 241, 0.5)' }}
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
+        transition={{ duration: 1, delay: index * 0.15, ease: 'easeOut' }}
+        whileHover={{ scale: 1.02, boxShadow: '0 0 20px rgba(99, 102, 241, 0.5)' }}
         className="bg-gray-800 bg-opacity-70 backdrop-blur-sm rounded-lg border border-gray-700 hover:border-indigo-500 overflow-hidden shadow-lg transition-all duration-300"
       >
         {/* Project Image */}
@@ -106,9 +106,9 @@ function Projects() {
             src={project.image}
             alt={project.title}
             className="w-full h-full object-cover"
-            initial={{ scale: 1.2, opacity: 0 }}
-            animate={isInView ? { scale: 1, opacity: 1 } : { scale: 1.2, opacity: 0 }}
-            transition={{ duration: 0.8, delay: index * 0.2 + 0.1 }}
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ duration: 1, delay: index * 0.15, ease: 'easeOut' }}
           />
           <motion.div
             className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center"
@@ -122,7 +122,7 @@ function Projects() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white hover:text-indigo-500"
-                whileHover={{ scale: 1.3, rotate: 10 }}
+                whileHover={{ scale: 1.15, rotate: 5 }}
               >
                 <FaGithub className="text-3xl" />
               </motion.a>
@@ -131,7 +131,7 @@ function Projects() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white hover:text-indigo-500"
-                whileHover={{ scale: 1.3, rotate: -10 }}
+                whileHover={{ scale: 1.15, rotate: -5 }}
               >
                 <FaExternalLinkAlt className="text-3xl" />
               </motion.a>
@@ -163,10 +163,10 @@ function Projects() {
             {project.technologies.map((tech, techIndex) => (
               <motion.div
                 key={techIndex}
-                initial={{ opacity: 0, scale: 0 }}
-                animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.2 + 0.5 + techIndex * 0.1, type: 'spring' }}
-                whileHover={{ scale: 1.2, rotate: 5 }}
+                initial={{ opacity: 0 }}
+                animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.2 + techIndex * 0.1, ease: 'easeOut' }}
+                whileHover={{ scale: 1.05 }}
                 className="flex items-center space-x-2 bg-gray-700 text-gray-300 px-3 py-2 rounded-full"
               >
                 {techIcons[tech]}
@@ -180,15 +180,15 @@ function Projects() {
   };
 
   const TestimonialCard = ({ testimonial, index }) => {
-    const [ref, isInView] = useInView({ threshold: 0.2 });
+    const [ref, isInView] = useInView({ threshold: 0.2, triggerOnce: true });
 
     return (
       <motion.div
         ref={ref}
-        initial={{ opacity: 0, scale: 0.5, rotate: 180 }}
-        animate={isInView ? { opacity: 1, scale: 1, rotate: 0 } : { opacity: 0, scale: 0.5, rotate: 180 }}
-        transition={{ duration: 0.7, delay: index * 0.2, type: 'spring', stiffness: 80 }}
-        whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(99, 102, 241, 0.5)' }}
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
+        transition={{ duration: 1, delay: index * 0.15, ease: 'easeOut' }}
+        whileHover={{ scale: 1.02, boxShadow: '0 0 20px rgba(99, 102, 241, 0.5)' }}
         className="bg-gray-800 bg-opacity-70 backdrop-blur-sm rounded-lg border border-gray-700 hover:border-indigo-500 p-6 shadow-lg transition-all duration-300"
       >
         <motion.div
@@ -222,8 +222,8 @@ function Projects() {
   };
 
   const categories = ['All', ...new Set(projects.map(project => project.category))];
-  const filteredProjects = activeFilter === 'All' 
-    ? projects 
+  const filteredProjects = activeFilter === 'All'
+    ? projects
     : projects.filter(project => project.category === activeFilter);
 
   return (
@@ -236,9 +236,9 @@ function Projects() {
         {/* Section Title */}
         <motion.div
           className="text-center mb-12"
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={isSectionInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.5 }}
-          transition={{ duration: 0.8, type: 'spring', stiffness: 120 }}
+          initial={{ opacity: 0, y: -20 }}
+          animate={isSectionInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
+          transition={{ duration: 1, ease: 'easeOut' }}
         >
           <h2 className="text-4xl md:text-5xl font-bold text-white bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-500">
             My Projects
@@ -250,11 +250,11 @@ function Projects() {
           {categories.map((category, index) => (
             <motion.button
               key={category}
-              initial={{ opacity: 0, y: -50, scale: 0.8 }}
-              animate={isSectionInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: -50, scale: 0.8 }}
-              transition={{ duration: 0.5, delay: index * 0.15, type: 'spring' }}
-              whileHover={{ scale: 1.1, boxShadow: '0 0 15px rgba(99, 102, 241, 0.7)' }}
-              whileTap={{ scale: 0.9 }}
+              initial={{ opacity: 0, y: -20 }}
+              animate={isSectionInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
+              transition={{ duration: 0.5, delay: index * 0.15, ease: 'easeOut' }}
+              whileHover={{ scale: 1.05, boxShadow: '0 0 15px rgba(99, 102, 241, 0.7)' }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => setActiveFilter(category)}
               className={`
                 px-4 py-2 rounded-full transition-all duration-300

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import emailjs from '@emailjs/browser'; // Import EmailJS
+import emailjs from '@emailjs/browser';
 import { 
   FaPaperPlane, 
   FaWhatsapp, 
@@ -11,7 +11,36 @@ import {
   FaTimesCircle
 } from 'react-icons/fa';
 
+// Initialize EmailJS
+emailjs.init('j_LR_Sct-sa-I7GTY');
+
+// Custom hook for intersection observer
+const useInView = (options = {}) => {
+  const [isInView, setIsInView] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const currentRef = ref.current;
+    if (!currentRef) return;
+    
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsInView(entry.isIntersecting);
+    }, options);
+    
+    observer.observe(currentRef);
+    
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, [options]);
+
+  return [ref, isInView];
+};
+
 function Contact() {
+  const [sectionRef, isSectionInView] = useInView({ threshold: 0.1 });
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -74,9 +103,12 @@ function Contact() {
       // Send email using EmailJS
       const serviceID = 'default_service'; // Replace with your service ID if different
       const templateID = 'template_6mfle9b'; // Your template ID
-      const publicKey = 'j_LR_Sct-sa-I7GTY'; // Your public key
 
-      await emailjs.send(serviceID, templateID, formData, publicKey);
+      await emailjs.send(serviceID, templateID, {
+        from_name: formData.name,
+        from_email: formData.email,
+        message: formData.message,
+      });
 
       // Reset form
       setFormData({ name: '', email: '', message: '' });
@@ -92,16 +124,36 @@ function Contact() {
   };
 
   return (
-    <section id="contact" className="container mx-auto px-4 py-16">
+    <section id="contact" ref={sectionRef} className="relative py-20 px-4 overflow-hidden bg-gray-900">
+      {/* Background elements */}
+      <div className="absolute top-40 left-10 w-96 h-96 bg-indigo-900 bg-opacity-20 rounded-full filter blur-3xl opacity-30"></div>
+      <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-900 bg-opacity-20 rounded-full filter blur-3xl opacity-20"></div>
+      
+      <div className="container mx-auto relative z-10">
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
         className="max-w-4xl mx-auto"
       >
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-white">
-          Contact Me
-        </h2>
+        <div
+          className={`text-center mb-16 transition-all duration-500 ${isSectionInView ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}
+        >
+          <div 
+            className={`inline-block p-2 px-5 bg-indigo-900 bg-opacity-40 rounded-full mb-5 backdrop-blur-sm transition-all duration-500 ${isSectionInView ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}
+          >
+            <span className="text-indigo-300 text-sm font-medium">Get in Touch</span>
+          </div>
+          
+          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-500">
+              Contact Me
+            </span>
+          </h2>
+          <p className="text-gray-300 max-w-xl mx-auto">
+            Let's discuss your project and bring your ideas to life
+          </p>
+        </div>
 
         <div className="grid md:grid-cols-2 gap-12">
           {/* Contact Methods */}
@@ -109,7 +161,7 @@ function Contact() {
             initial={{ x: -50, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="bg-gray-800 rounded-lg p-6 space-y-6"
+            className="bg-gray-800 bg-opacity-70 backdrop-blur-sm rounded-lg border border-gray-700 hover:border-indigo-500 p-6 space-y-6 transition-all duration-300 hover:shadow-lg"
           >
             <h3 className="text-xl font-semibold text-white mb-4">
               Contact Information
@@ -159,7 +211,7 @@ function Contact() {
                   onChange={handleChange}
                   required
                   placeholder="Your Name"
-                  className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-secondary"
+                  className="w-full bg-gray-800 bg-opacity-70 backdrop-blur-sm border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition-all duration-300 hover:border-indigo-400"
                 />
               </div>
 
@@ -175,7 +227,7 @@ function Contact() {
                   onChange={handleChange}
                   required
                   placeholder="you@example.com"
-                  className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-secondary"
+                  className="w-full bg-gray-800 bg-opacity-70 backdrop-blur-sm border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition-all duration-300 hover:border-indigo-400"
                 />
               </div>
 
@@ -191,14 +243,14 @@ function Contact() {
                   required
                   rows="5"
                   placeholder="Type your message here..."
-                  className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-secondary"
+                  className="w-full bg-gray-800 bg-opacity-70 backdrop-blur-sm border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition-all duration-300 hover:border-indigo-400"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-secondary text-white py-3 rounded-lg hover:bg-opacity-90 transition-colors flex items-center justify-center space-x-2 group relative overflow-hidden"
+                className="w-full bg-gradient-to-r from-indigo-500 to-purple-500 text-white py-3 rounded-lg hover:opacity-90 transition-all duration-300 flex items-center justify-center space-x-2 group relative overflow-hidden transform hover:scale-[1.02]"
               >
                 <motion.span
                   initial={{ opacity: 1 }}
@@ -254,6 +306,7 @@ function Contact() {
           </motion.div>
         </div>
       </motion.div>
+    </div> {/* Closing container div */}
     </section>
   );
 }
