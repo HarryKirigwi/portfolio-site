@@ -70,7 +70,7 @@ export default function About() {
   }, []);
 
   return (
-    <section className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white py-20 px-4 md:px-8 overflow-hidden pt-24"> {/* Added pt-24 */}
+    <section className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white py-20 px-2 sm:px-4 md:px-8 overflow-hidden pt-24"> {/* Added pt-24 */}
       {/* Floating elements for visual interest */}
       <div className="absolute top-20 left-10 w-64 h-64 bg-indigo-900/20 rounded-full filter blur-3xl opacity-30 animate-pulse" />
       <div className="absolute bottom-20 right-10 w-64 h-64 bg-purple-900/20 rounded-full filter blur-3xl opacity-30 animate-pulse" style={{ animationDelay: '2s' }} />
