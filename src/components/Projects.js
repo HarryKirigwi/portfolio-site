@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   FaGithub, 
   FaExternalLinkAlt, 
@@ -12,14 +12,15 @@ import {
   FaCss3Alt 
 } from 'react-icons/fa';
 import { SiTailwindcss, SiMongodb, SiFirebase } from 'react-icons/si';
-import brilliantImage from "../images/brilliant-essay.png"
-import portfolioImage from "../images/portfolio-website.png"
-import universityImage from "../images/synapsse-display.png"
-
+import brilliantImage from "../images/brilliant-essay.png";
+import portfolioImage from "../images/portfolio-website.png";
+import universityImage from "../images/synapsse-display.png";
+import { useInView } from 'react-intersection-observer';
 function Projects() {
   const [activeFilter, setActiveFilter] = useState('All');
+  const [sectionRef, isSectionInView] = useInView({ threshold: 0.1 });
+  const [testimonialsRef, isTestimonialsInView] = useInView({ threshold: 0.1 });
 
-  // Projects Data with Images and Tech Stack Icons
   const projects = [
     {
       id: 1,
@@ -53,7 +54,6 @@ function Projects() {
     }
   ];
 
-  // Testimonials Data
   const testimonials = [
     {
       id: 1,
@@ -78,7 +78,6 @@ function Projects() {
     }
   ];
 
-  // Tech Stack Icons Mapping
   const techIcons = {
     'React': <FaReact className="text-2xl text-blue-500" />,
     'Node.js': <FaNodeJs className="text-2xl text-green-500" />,
@@ -89,137 +88,214 @@ function Projects() {
     'CSS': <FaCss3Alt className="text-2xl text-blue-300" />
   };
 
-  const categories = ['All', ...new Set(projects.map(project => project.category))];
+  const ProjectCard = ({ project, index }) => {
+    const [ref, isInView] = useInView({ threshold: 0.2 });
 
+    return (
+      <motion.div
+        ref={ref}
+        initial={{ opacity: 0, rotateY: 90, scale: 0.8 }}
+        animate={isInView ? { opacity: 1, rotateY: 0, scale: 1 } : { opacity: 0, rotateY: 90, scale: 0.8 }}
+        transition={{ duration: 0.6, delay: index * 0.2, type: 'spring', stiffness: 100 }}
+        whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(99, 102, 241, 0.5)' }}
+        className="bg-gray-800 bg-opacity-70 backdrop-blur-sm rounded-lg border border-gray-700 hover:border-indigo-500 overflow-hidden shadow-lg transition-all duration-300"
+      >
+        {/* Project Image */}
+        <div className="relative h-48 overflow-hidden">
+          <motion.img
+            src={project.image}
+            alt={project.title}
+            className="w-full h-full object-cover"
+            initial={{ scale: 1.2, opacity: 0 }}
+            animate={isInView ? { scale: 1, opacity: 1 } : { scale: 1.2, opacity: 0 }}
+            transition={{ duration: 0.8, delay: index * 0.2 + 0.1 }}
+          />
+          <motion.div
+            className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center"
+            initial={{ opacity: 0 }}
+            whileHover={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div className="flex space-x-6">
+              <motion.a
+                href={project.githubLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white hover:text-indigo-500"
+                whileHover={{ scale: 1.3, rotate: 10 }}
+              >
+                <FaGithub className="text-3xl" />
+              </motion.a>
+              <motion.a
+                href={project.liveLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white hover:text-indigo-500"
+                whileHover={{ scale: 1.3, rotate: -10 }}
+              >
+                <FaExternalLinkAlt className="text-3xl" />
+              </motion.a>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Project Details */}
+        <div className="p-6">
+          <motion.h3
+            className="text-xl font-semibold mb-3 text-white"
+            initial={{ opacity: 0, x: -50 }}
+            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
+            transition={{ duration: 0.5, delay: index * 0.2 + 0.3 }}
+          >
+            {project.title}
+          </motion.h3>
+          <motion.p
+            className="text-gray-400 mb-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.5, delay: index * 0.2 + 0.4 }}
+          >
+            {project.description}
+          </motion.p>
+
+          {/* Technologies with Icons */}
+          <div className="flex flex-wrap gap-4 mb-4">
+            {project.technologies.map((tech, techIndex) => (
+              <motion.div
+                key={techIndex}
+                initial={{ opacity: 0, scale: 0 }}
+                animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
+                transition={{ duration: 0.4, delay: index * 0.2 + 0.5 + techIndex * 0.1, type: 'spring' }}
+                whileHover={{ scale: 1.2, rotate: 5 }}
+                className="flex items-center space-x-2 bg-gray-700 text-gray-300 px-3 py-2 rounded-full"
+              >
+                {techIcons[tech]}
+                <span className="text-sm">{tech}</span>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </motion.div>
+    );
+  };
+
+  const TestimonialCard = ({ testimonial, index }) => {
+    const [ref, isInView] = useInView({ threshold: 0.2 });
+
+    return (
+      <motion.div
+        ref={ref}
+        initial={{ opacity: 0, scale: 0.5, rotate: 180 }}
+        animate={isInView ? { opacity: 1, scale: 1, rotate: 0 } : { opacity: 0, scale: 0.5, rotate: 180 }}
+        transition={{ duration: 0.7, delay: index * 0.2, type: 'spring', stiffness: 80 }}
+        whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(99, 102, 241, 0.5)' }}
+        className="bg-gray-800 bg-opacity-70 backdrop-blur-sm rounded-lg border border-gray-700 hover:border-indigo-500 p-6 shadow-lg transition-all duration-300"
+      >
+        <motion.div
+          className="flex items-center space-x-4 mb-4"
+          initial={{ opacity: 0, x: -50 }}
+          animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
+          transition={{ duration: 0.5, delay: index * 0.2 + 0.2 }}
+        >
+          <img 
+            src={testimonial.image} 
+            alt={testimonial.name} 
+            className="w-12 h-12 rounded-full"
+          />
+          <div>
+            <h4 className="text-white font-semibold">{testimonial.name}</h4>
+            <p className="text-gray-400 text-sm">{testimonial.role}</p>
+          </div>
+        </motion.div>
+        <motion.div
+          className="text-gray-300"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ duration: 0.5, delay: index * 0.2 + 0.3 }}
+        >
+          <FaQuoteLeft className="inline-block text-gray-500 mb-2" />
+          <p className="inline">{testimonial.quote}</p>
+          <FaQuoteRight className="inline-block text-gray-500 mt-2" />
+        </motion.div>
+      </motion.div>
+    );
+  };
+
+  const categories = ['All', ...new Set(projects.map(project => project.category))];
   const filteredProjects = activeFilter === 'All' 
     ? projects 
     : projects.filter(project => project.category === activeFilter);
 
   return (
-    <section className="container mx-auto px-4 py-16">
-      <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-white">
-        My Projects
-      </h2>
+    <section ref={sectionRef} className="relative container mx-auto px-4 py-16 overflow-hidden bg-gray-900">
+      {/* Background Elements */}
+      <div className="absolute top-40 left-10 w-96 h-96 bg-indigo-900 bg-opacity-20 rounded-full filter blur-3xl opacity-30"></div>
+      <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-900 bg-opacity-20 rounded-full filter blur-3xl opacity-20"></div>
 
-      {/* Category Filters */}
-      <div className="flex justify-center mb-12 space-x-4">
-        {categories.map((category) => (
-          <motion.button
-            key={category}
-            onClick={() => setActiveFilter(category)}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className={`
-              px-4 py-2 rounded-full transition-all duration-300
-              ${activeFilter === category 
-                ? 'bg-secondary text-white' 
-                : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
-              }
-            `}
-          >
-            {category}
-          </motion.button>
-        ))}
-      </div>
+      <div className="relative z-10">
+        {/* Section Title */}
+        <motion.div
+          className="text-center mb-12"
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={isSectionInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.5 }}
+          transition={{ duration: 0.8, type: 'spring', stiffness: 120 }}
+        >
+          <h2 className="text-4xl md:text-5xl font-bold text-white bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-500">
+            My Projects
+          </h2>
+        </motion.div>
 
-      {/* Projects Grid */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {filteredProjects.map((project) => (
-          <motion.div
-            key={project.id}
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
-          >
-            {/* Project Image */}
-            <div className="relative h-48 overflow-hidden">
-              <img
-                src={project.image}
-                alt={project.title}
-                className="w-full h-full object-cover transform hover:scale-110 transition-transform duration-300"
-              />
-              <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
-                <div className="flex space-x-4">
-                  <a
-                    href={project.githubLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-white hover:text-secondary"
-                  >
-                    <FaGithub className="text-2xl" />
-                  </a>
-                  <a
-                    href={project.liveLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-white hover:text-secondary"
-                  >
-                    <FaExternalLinkAlt className="text-2xl" />
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* Project Details */}
-            <div className="p-6">
-              <h3 className="text-xl font-semibold mb-3 text-white">
-                {project.title}
-              </h3>
-              <p className="text-gray-400 mb-4">
-                {project.description}
-              </p>
-
-              {/* Technologies with Icons */}
-              <div className="flex flex-wrap gap-4 mb-4">
-                {project.technologies.map((tech, index) => (
-                  <motion.div
-                    key={index}
-                    whileHover={{ scale: 1.1 }}
-                    className="flex items-center space-x-2 bg-gray-700 text-gray-300 px-3 py-2 rounded-full"
-                  >
-                    {techIcons[tech]}
-                    <span className="text-sm">{tech}</span>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-
-      {/* Testimonials Section */}
-      <div className="mt-24">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-white">
-          What People Say
-        </h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {testimonials.map((testimonial) => (
-            <motion.div
-              key={testimonial.id}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="bg-gray-800 rounded-lg p-6 shadow-lg hover:shadow-xl transition-shadow duration-300"
+        {/* Category Filters */}
+        <div className="flex justify-center mb-12 space-x-4 flex-wrap gap-4">
+          {categories.map((category, index) => (
+            <motion.button
+              key={category}
+              initial={{ opacity: 0, y: -50, scale: 0.8 }}
+              animate={isSectionInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: -50, scale: 0.8 }}
+              transition={{ duration: 0.5, delay: index * 0.15, type: 'spring' }}
+              whileHover={{ scale: 1.1, boxShadow: '0 0 15px rgba(99, 102, 241, 0.7)' }}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => setActiveFilter(category)}
+              className={`
+                px-4 py-2 rounded-full transition-all duration-300
+                bg-gray-800 bg-opacity-60 border border-gray-700
+                ${activeFilter === category 
+                  ? 'border-indigo-500 text-indigo-300 bg-indigo-900 bg-opacity-20' 
+                  : 'text-gray-400 hover:border-indigo-500 hover:text-indigo-300'
+                }
+              `}
             >
-              <div className="flex items-center space-x-4 mb-4">
-                <img 
-                  src={testimonial.image} 
-                  alt={testimonial.name} 
-                  className="w-12 h-12 rounded-full"
-                />
-                <div>
-                  <h4 className="text-white font-semibold">{testimonial.name}</h4>
-                  <p className="text-gray-400 text-sm">{testimonial.role}</p>
-                </div>
-              </div>
-              <div className="text-gray-300">
-                <FaQuoteLeft className="inline-block text-gray-500 mb-2" />
-                <p className="inline">{testimonial.quote}</p>
-                <FaQuoteRight className="inline-block text-gray-500 mt-2" />
-              </div>
-            </motion.div>
+              {category}
+            </motion.button>
           ))}
+        </div>
+
+        {/* Projects Grid */}
+        <AnimatePresence>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredProjects.map((project, index) => (
+              <ProjectCard key={project.id} project={project} index={index} />
+            ))}
+          </div>
+        </AnimatePresence>
+
+        {/* Testimonials Section */}
+        <div ref={testimonialsRef} className="mt-24">
+          <motion.div
+            className="text-center mb-12"
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={isTestimonialsInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.5 }}
+            transition={{ duration: 0.8, type: 'spring', stiffness: 120 }}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-white bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-500">
+              What People Say
+            </h2>
+          </motion.div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {testimonials.map((testimonial, index) => (
+              <TestimonialCard key={testimonial.id} testimonial={testimonial} index={index} />
+            ))}
+          </div>
         </div>
       </div>
     </section>
