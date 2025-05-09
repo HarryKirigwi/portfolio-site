@@ -131,13 +131,13 @@ function Header() {
               {[
                 { 
                   Icon: FaGithub, 
-                  href: "https://github.com/harrisonkirigwi",
+                  href: "https://github.com/HarryKirigwi",
                   color: "hover:text-indigo-400 hover:bg-gray-800/80",
                   tooltip: "GitHub"
                 },
                 { 
                   Icon: FaLinkedin, 
-                  href: "https://linkedin.com/in/harrisonkirigwi",
+                  href: "https://linkedin.com/in/harrykirigwi",
                   color: "hover:text-indigo-400 hover:bg-gray-800/80",
                   tooltip: "LinkedIn"
                 },
