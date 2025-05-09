@@ -7,7 +7,7 @@ import {
   FaQuoteRight, 
   FaReact, 
   FaNodeJs, 
-  FaDatabase, 
+  // FaDatabase, 
   FaFire, 
   FaCss3Alt 
 } from 'react-icons/fa';
@@ -19,7 +19,7 @@ import { useInView } from 'react-intersection-observer';
 function Projects() {
   const [activeFilter, setActiveFilter] = useState('All');
   const [sectionRef, isSectionInView] = useInView({ threshold: 0.1, triggerOnce: true });
-  const [testimonialsRef, isTestimonialsInView] = useInView({ threshold: 0.1, triggerOnce: true });
+  // const [testimonialsRef, isTestimonialsInView] = useInView({ threshold: 0.1, triggerOnce: true });
 
   const projects = [
     {
@@ -54,29 +54,29 @@ function Projects() {
     }
   ];
 
-  const testimonials = [
-    {
-      id: 1,
-      name: 'John Doe',
-      role: 'CEO, Brilliant Essays',
-      quote: 'Working with Harry was an absolute pleasure. His attention to detail and commitment to delivering high-quality work is unmatched.',
-      image: 'https://via.placeholder.com/150'
-    },
-    {
-      id: 2,
-      name: 'Jane Smith',
-      role: 'Product Manager, Tech Corp',
-      quote: 'Harry is a talented developer who always goes above and beyond to ensure the project is a success. Highly recommended!',
-      image: 'https://via.placeholder.com/150'
-    },
-    {
-      id: 3,
-      name: 'Michael Johnson',
-      role: 'Founder, EduTech Solutions',
-      quote: 'Harry\'s ability to solve complex problems and deliver on time is truly impressive. A great asset to any team.',
-      image: 'https://via.placeholder.com/150'
-    }
-  ];
+  // const testimonials = [
+  //   {
+  //     id: 1,
+  //     name: 'John Doe',
+  //     role: 'CEO, Brilliant Essays',
+  //     quote: 'Working with Harry was an absolute pleasure. His attention to detail and commitment to delivering high-quality work is unmatched.',
+  //     image: 'https://via.placeholder.com/150'
+  //   },
+  //   {
+  //     id: 2,
+  //     name: 'Jane Smith',
+  //     role: 'Product Manager, Tech Corp',
+  //     quote: 'Harry is a talented developer who always goes above and beyond to ensure the project is a success. Highly recommended!',
+  //     image: 'https://via.placeholder.com/150'
+  //   },
+  //   {
+  //     id: 3,
+  //     name: 'Michael Johnson',
+  //     role: 'Founder, EduTech Solutions',
+  //     quote: 'Harry\'s ability to solve complex problems and deliver on time is truly impressive. A great asset to any team.',
+  //     image: 'https://via.placeholder.com/150'
+  //   }
+  // ];
 
   const techIcons = {
     'React': <FaReact className="text-2xl text-blue-500" />,
@@ -297,7 +297,7 @@ function Projects() {
             ))}
           </div>
         </div> */}
-      </div>
+      </div>                                       
     </section>
   );
 }

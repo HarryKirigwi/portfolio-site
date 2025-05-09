@@ -79,7 +79,7 @@ function Contact() {
     {
       icon: FaEnvelope,
       title: 'Email',
-      value: 'harrykirigwi@gmail.com',
+      value: 'harrykigs2003@gmail.com',
       link: 'mailto:harrykigs2003@gmail.com',
       color: 'text-red-500'
     }
