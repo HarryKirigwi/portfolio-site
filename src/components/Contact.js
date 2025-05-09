@@ -80,7 +80,7 @@ function Contact() {
       icon: FaEnvelope,
       title: 'Email',
       value: 'harrykirigwi@gmail.com',
-      link: 'mailto:harrykirigwi@gmail.com',
+      link: 'mailto:harrykigs2003@gmail.com',
       color: 'text-red-500'
     }
   ];
@@ -101,8 +101,8 @@ function Contact() {
 
     try {
       // Send email using EmailJS
-      const serviceID = 'default_service'; // Replace with your service ID if different
-      const templateID = 'template_6mfle9b'; // Your template ID
+      const serviceID = 'default_service'; 
+      const templateID = 'template_6mfle9b'; 
 
       await emailjs.send(serviceID, templateID, {
         from_name: formData.name,

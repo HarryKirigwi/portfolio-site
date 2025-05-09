@@ -110,12 +110,12 @@ export default function About() {
               
               {/* Experience Badges */}
               <div className="absolute -top-4 -right-4 bg-gray-800 text-indigo-300 px-4 py-2 rounded-lg shadow-lg flex items-center">
-                <span className="text-lg font-bold mr-2">5+</span>
+                <span className="text-lg font-bold mr-2">3+</span>
                 <span className="text-xs">Years Experience</span>
               </div>
               
               <div className="absolute -bottom-4 -left-4 bg-gray-800 text-indigo-300 px-4 py-2 rounded-lg shadow-lg flex items-center">
-                <span className="text-lg font-bold mr-2">50+</span>
+                <span className="text-lg font-bold mr-2">20+</span>
                 <span className="text-xs">Projects Completed</span>
               </div>
             </div>
@@ -195,9 +195,9 @@ export default function About() {
             className={`grid grid-cols-2 md:grid-cols-4 gap-6 transition-all duration-1000 ease-out transform ${statsInView ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`}
           >
             {[
-              { number: "50+", label: "Projects Completed" },
-              { number: "10+", label: "Happy Clients" },
-              { number: "5+", label: "Years Experience" },
+              { number: "20+", label: "Projects Completed" },
+              { number: "5+", label: "Happy Clients" },
+              { number: "3+", label: "Years Experience" },
               { number: "15+", label: "Technologies" }
             ].map((stat, index) => (
               <div 

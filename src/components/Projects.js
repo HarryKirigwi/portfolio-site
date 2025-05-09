@@ -280,7 +280,7 @@ function Projects() {
         </AnimatePresence>
 
         {/* Testimonials Section */}
-        <div ref={testimonialsRef} className="mt-24">
+        {/* <div ref={testimonialsRef} className="mt-24">
           <motion.div
             className="text-center mb-12"
             initial={{ opacity: 0, scale: 0.5 }}
@@ -296,7 +296,7 @@ function Projects() {
               <TestimonialCard key={testimonial.id} testimonial={testimonial} index={index} />
             ))}
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );
