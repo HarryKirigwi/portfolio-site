@@ -60,7 +60,7 @@ function Header() {
       <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500 bg-size-200" />
 
       {/* Main content */}
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-2 sm:px-4">
         <div className="flex items-center justify-between">
           {/* Logo and Name with Glow effect */}
           <motion.div 

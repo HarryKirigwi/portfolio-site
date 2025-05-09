@@ -227,7 +227,7 @@ function Projects() {
     : projects.filter(project => project.category === activeFilter);
 
   return (
-    <section ref={sectionRef} className="relative container mx-auto px-4 py-16 overflow-hidden bg-gray-900">
+    <section ref={sectionRef} className="relative container mx-auto px-2 sm:px-4 py-16 overflow-hidden bg-gray-900">
       {/* Background Elements */}
       <div className="absolute top-40 left-10 w-96 h-96 bg-indigo-900 bg-opacity-20 rounded-full filter blur-3xl opacity-30"></div>
       <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-900 bg-opacity-20 rounded-full filter blur-3xl opacity-20"></div>
