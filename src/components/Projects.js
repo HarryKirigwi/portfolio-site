@@ -14,7 +14,7 @@ import {
 import { SiTailwindcss, SiMongodb, SiFirebase } from 'react-icons/si';
 import brilliantImage from "../images/brilliant-essay.png";
 import portfolioImage from "../images/portfolio-website.png";
-import universityImage from "../images/synapsse-display.png";
+import universityImage from "../images/bonnflowers.png";
 import { useInView } from 'react-intersection-observer';
 function Projects() {
   const [activeFilter, setActiveFilter] = useState('All');
@@ -34,12 +34,12 @@ function Projects() {
     },
     {
       id: 2,
-      title: 'University Website',
-      description: 'Productivity tracking application with real-time updates',
-      technologies: ['React', 'Firebase', 'Tailwind CSS'],
+      title: 'House of Bonn Flowers',
+      description: 'Client project for a flower shop with real-time features',
+      technologies: ['Nextjs', 'Postgres', 'Tailwind CSS'],
       category: 'Web App',
       githubLink: '#',
-      liveLink: '#',
+      liveLink: 'bonnflowers.vercel.app',
       image: universityImage
     },
     {
