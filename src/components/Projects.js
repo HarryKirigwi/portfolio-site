@@ -9,28 +9,33 @@ import {
   FaNodeJs, 
   // FaDatabase, 
   FaFire, 
-  FaCss3Alt 
+  FaCss3Alt,
+  FaPython,
+  FaJs
 } from 'react-icons/fa';
-import { SiTailwindcss, SiMongodb, SiFirebase } from 'react-icons/si';
+import { SiTailwindcss, SiMongodb, SiFirebase, SiNextdotjs } from 'react-icons/si';
 import brilliantImage from "../images/brilliant-essay.png";
-import portfolioImage from "../images/portfolio-website.png";
 import universityImage from "../images/bonnflowers.png";
+import faithfeedsImage from "../images/faithfeedswebsite.png";
 import { useInView } from 'react-intersection-observer';
+
 function Projects() {
   const [activeFilter, setActiveFilter] = useState('All');
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupProject, setPopupProject] = useState(null);
   const [sectionRef, isSectionInView] = useInView({ threshold: 0.1, triggerOnce: true });
   // const [testimonialsRef, isTestimonialsInView] = useInView({ threshold: 0.1, triggerOnce: true });
 
   const projects = [
     {
       id: 1,
-      title: 'E-Commerce Platform',
-      description: 'Full-stack e-commerce solution with React and Node.js',
-      technologies: ['React', 'Node.js', 'MongoDB'],
+      title: 'Faith Feeds International',
+      description: 'Faith-led initiative dedicated to restoring dignity through uplifting vulnerable communities while empowering youth to lead change through service and leadership.',
+      technologies: ['Next.js', 'Tailwind CSS', 'JavaScript'],
       category: 'Web App',
-      githubLink: 'https://github.com/HarryKirigwi/Brilliant-Essays/',
-      liveLink: 'https://brilliantessays.vercel.app',
-      image: brilliantImage 
+      githubLink: 'https://github.com/HarryKirigwi/faith-foundation',
+      liveLink: 'https://faith-foundation.vercel.app/',
+      image: faithfeedsImage 
     },
     {
       id: 2,
@@ -38,19 +43,21 @@ function Projects() {
       description: 'Client project for a flower shop with real-time features',
       technologies: ['Nextjs', 'Postgres', 'Tailwind CSS'],
       category: 'Web App',
-      githubLink: '#',
-      liveLink: 'bonnflowers.vercel.app',
-      image: universityImage
+      githubLink: 'https://github.com/HarryKirigwi/bonn-flowers',
+      liveLink: 'https://bonnflowers.vercel.app',
+      image: universityImage,
+      comingSoon: true
     },
     {
       id: 3,
-      title: 'Portfolio Website',
-      description: 'Personal portfolio showcasing professional work',
-      technologies: ['React', 'Framer Motion', 'Tailwind CSS'],
-      category: 'Web Design',
-      githubLink: 'https://github.com/HarryKirigwi/portfolio-site',
-      liveLink: '#',
-      image: portfolioImage 
+      title: 'Lee AI Forex Trading Program',
+      description: 'AI-powered forex information and trading recommendation system built with Python',
+      technologies: ['Python', 'AI/ML', 'Data Analysis'],
+      category: 'AI/ML',
+      githubLink: 'https://github.com/HarryKirigwi/Lee-AI-Forex-Information-Trading-Recommendation-Program',
+      liveLink: null,
+      image: 'https://images.pexels.com/photos/164474/pexels-photo-164474.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      comingSoon: true
     }
   ];
 
@@ -85,7 +92,12 @@ function Projects() {
     'Firebase': <SiFirebase className="text-2xl text-yellow-500" />,
     'Tailwind CSS': <SiTailwindcss className="text-2xl text-blue-400" />,
     'Framer Motion': <FaFire className="text-2xl text-purple-500" />,
-    'CSS': <FaCss3Alt className="text-2xl text-blue-300" />
+    'CSS': <FaCss3Alt className="text-2xl text-blue-300" />,
+    'Next.js': <SiNextdotjs className="text-2xl text-blue-600" />,
+    'Python': <FaPython className="text-2xl text-blue-700" />,
+    'AI/ML': <FaFire className="text-2xl text-orange-500" />,
+    'Data Analysis': <FaFire className="text-2xl text-green-400" />,
+    'JavaScript': <FaJs className="text-2xl text-yellow-400" />
   };
 
   const ProjectCard = ({ project, index }) => {
@@ -126,15 +138,28 @@ function Projects() {
               >
                 <FaGithub className="text-3xl" />
               </motion.a>
-              <motion.a
-                href={project.liveLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white hover:text-indigo-500"
-                whileHover={{ scale: 1.15, rotate: -5 }}
-              >
-                <FaExternalLinkAlt className="text-3xl" />
-              </motion.a>
+                             {project.comingSoon ? (
+                 <motion.button
+                   onClick={() => {
+                     setPopupProject(project);
+                     setShowPopup(true);
+                   }}
+                   className="text-white hover:text-indigo-500"
+                   whileHover={{ scale: 1.15, rotate: -5 }}
+                 >
+                   <FaExternalLinkAlt className="text-3xl" />
+                 </motion.button>
+               ) : (
+                <motion.a
+                  href={project.liveLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white hover:text-indigo-500"
+                  whileHover={{ scale: 1.15, rotate: -5 }}
+                >
+                  <FaExternalLinkAlt className="text-3xl" />
+                </motion.a>
+              )}
             </div>
           </motion.div>
         </div>
@@ -297,6 +322,62 @@ function Projects() {
             ))}
           </div>
         </div> */}
+
+        {/* Coming Soon Popup */}
+        <AnimatePresence>
+          {showPopup && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+                             onClick={() => {
+                 setShowPopup(false);
+                 setPopupProject(null);
+               }}
+            >
+              <motion.div
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.8, opacity: 0 }}
+                className="bg-gray-800 rounded-lg p-8 max-w-md w-full border border-gray-700"
+                onClick={(e) => e.stopPropagation()}
+              >
+                                 <div className="text-center">
+                   <div className="text-6xl mb-4">🚀</div>
+                   <h3 className="text-2xl font-bold text-white mb-4">Coming Soon!</h3>
+                   <p className="text-gray-300 mb-6">
+                     The live version of <span className="text-indigo-400 font-semibold">{popupProject?.title}</span> is currently unavailable. 
+                     You can check out the source code on GitHub in the meantime!
+                   </p>
+                   <div className="flex space-x-4 justify-center">
+                     <motion.a
+                       href={popupProject?.githubLink}
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg transition-colors duration-300"
+                       whileHover={{ scale: 1.05 }}
+                       whileTap={{ scale: 0.95 }}
+                     >
+                       View on GitHub
+                     </motion.a>
+                    <motion.button
+                      onClick={() => {
+                 setShowPopup(false);
+                 setPopupProject(null);
+               }}
+                      className="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg transition-colors duration-300"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      Close
+                    </motion.button>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>                                       
     </section>
   );
