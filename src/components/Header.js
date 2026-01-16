@@ -19,7 +19,7 @@ function Header() {
       }, typingSpeed);
     }
     return () => clearTimeout(timeout);
-  }, [typedText]);
+  }, [typedText, fullText, typingSpeed]);
 
   // Scroll effect for header
   useEffect(() => {

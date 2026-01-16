@@ -3,18 +3,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   FaGithub, 
   FaExternalLinkAlt, 
-  FaQuoteLeft, 
-  FaQuoteRight, 
   FaReact, 
   FaNodeJs, 
-  // FaDatabase, 
   FaFire, 
   FaCss3Alt,
   FaPython,
   FaJs
 } from 'react-icons/fa';
 import { SiTailwindcss, SiMongodb, SiFirebase, SiNextdotjs } from 'react-icons/si';
-import brilliantImage from "../images/brilliant-essay.png";
 import universityImage from "../images/bonnflowers.png";
 import faithfeedsImage from "../images/faithfeedswebsite.png";
 import { useInView } from 'react-intersection-observer';
@@ -24,7 +20,6 @@ function Projects() {
   const [showPopup, setShowPopup] = useState(false);
   const [popupProject, setPopupProject] = useState(null);
   const [sectionRef, isSectionInView] = useInView({ threshold: 0.1, triggerOnce: true });
-  // const [testimonialsRef, isTestimonialsInView] = useInView({ threshold: 0.1, triggerOnce: true });
 
   const projects = [
     {
@@ -60,30 +55,6 @@ function Projects() {
       comingSoon: true
     }
   ];
-
-  // const testimonials = [
-  //   {
-  //     id: 1,
-  //     name: 'John Doe',
-  //     role: 'CEO, Brilliant Essays',
-  //     quote: 'Working with Harry was an absolute pleasure. His attention to detail and commitment to delivering high-quality work is unmatched.',
-  //     image: 'https://via.placeholder.com/150'
-  //   },
-  //   {
-  //     id: 2,
-  //     name: 'Jane Smith',
-  //     role: 'Product Manager, Tech Corp',
-  //     quote: 'Harry is a talented developer who always goes above and beyond to ensure the project is a success. Highly recommended!',
-  //     image: 'https://via.placeholder.com/150'
-  //   },
-  //   {
-  //     id: 3,
-  //     name: 'Michael Johnson',
-  //     role: 'Founder, EduTech Solutions',
-  //     quote: 'Harry\'s ability to solve complex problems and deliver on time is truly impressive. A great asset to any team.',
-  //     image: 'https://via.placeholder.com/150'
-  //   }
-  // ];
 
   const techIcons = {
     'React': <FaReact className="text-2xl text-blue-500" />,
@@ -204,48 +175,6 @@ function Projects() {
     );
   };
 
-  const TestimonialCard = ({ testimonial, index }) => {
-    const [ref, isInView] = useInView({ threshold: 0.2, triggerOnce: true });
-
-    return (
-      <motion.div
-        ref={ref}
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
-        transition={{ duration: 1, delay: index * 0.15, ease: 'easeOut' }}
-        whileHover={{ scale: 1.02, boxShadow: '0 0 20px rgba(99, 102, 241, 0.5)' }}
-        className="bg-gray-800 bg-opacity-70 backdrop-blur-sm rounded-lg border border-gray-700 hover:border-indigo-500 p-6 shadow-lg transition-all duration-300"
-      >
-        <motion.div
-          className="flex items-center space-x-4 mb-4"
-          initial={{ opacity: 0, x: -50 }}
-          animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
-          transition={{ duration: 0.5, delay: index * 0.2 + 0.2 }}
-        >
-          <img 
-            src={testimonial.image} 
-            alt={testimonial.name} 
-            className="w-12 h-12 rounded-full"
-          />
-          <div>
-            <h4 className="text-white font-semibold">{testimonial.name}</h4>
-            <p className="text-gray-400 text-sm">{testimonial.role}</p>
-          </div>
-        </motion.div>
-        <motion.div
-          className="text-gray-300"
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.5, delay: index * 0.2 + 0.3 }}
-        >
-          <FaQuoteLeft className="inline-block text-gray-500 mb-2" />
-          <p className="inline">{testimonial.quote}</p>
-          <FaQuoteRight className="inline-block text-gray-500 mt-2" />
-        </motion.div>
-      </motion.div>
-    );
-  };
-
   const categories = ['All', ...new Set(projects.map(project => project.category))];
   const filteredProjects = activeFilter === 'All'
     ? projects
@@ -303,25 +232,6 @@ function Projects() {
             ))}
           </div>
         </AnimatePresence>
-
-        {/* Testimonials Section */}
-        {/* <div ref={testimonialsRef} className="mt-24">
-          <motion.div
-            className="text-center mb-12"
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={isTestimonialsInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.5 }}
-            transition={{ duration: 0.8, type: 'spring', stiffness: 120 }}
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-white bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-500">
-              What People Say
-            </h2>
-          </motion.div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <TestimonialCard key={testimonial.id} testimonial={testimonial} index={index} />
-            ))}
-          </div>
-        </div> */}
 
         {/* Coming Soon Popup */}
         <AnimatePresence>

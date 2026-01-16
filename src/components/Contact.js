@@ -18,6 +18,11 @@ emailjs.init('j_LR_Sct-sa-I7GTY');
 const useInView = (options = {}) => {
   const [isInView, setIsInView] = useState(false);
   const ref = useRef(null);
+  const optionsRef = useRef(options);
+
+  useEffect(() => {
+    optionsRef.current = options;
+  }, [options]);
 
   useEffect(() => {
     const currentRef = ref.current;
@@ -25,7 +30,7 @@ const useInView = (options = {}) => {
     
     const observer = new IntersectionObserver(([entry]) => {
       setIsInView(entry.isIntersecting);
-    }, options);
+    }, optionsRef.current);
     
     observer.observe(currentRef);
     
@@ -34,7 +39,8 @@ const useInView = (options = {}) => {
         observer.unobserve(currentRef);
       }
     };
-  }, [options]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return [ref, isInView];
 };
