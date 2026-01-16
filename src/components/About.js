@@ -154,7 +154,7 @@ export default function About() {
               {/* Action Buttons */}
               <div className="flex flex-wrap justify-center md:justify-start gap-4 mt-8">
                 <a 
-                  href="https://drive.google.com/file/d/1Y9hdb4pkBE2rbiKSzXoQP9ls13rUVpHc/view?usp=drive_link" 
+                  href="https://drive.google.com/file/d/1vZZX4StLSN78_2Wj84SFteFwJ9yLRvX7/view?usp=drive_link" 
                   target="_blank"
                   rel="noopener noreferrer"
                   className="relative px-6 py-3 font-bold text-white rounded-lg group overflow-hidden"
